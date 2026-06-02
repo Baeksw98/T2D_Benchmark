@@ -112,6 +112,22 @@ python -m t2d_benchmark.analysis.generate_synthetic_demo_data --target both --ou
 See [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md) for the command-by-command guide
 and expected outputs.
 
+## Using the package as a library
+
+The generalizability-theory computation is also available programmatically. The
+`GTheoryEngine` composes the variance-component estimation, the dependability/
+generalizability coefficients, and the decision study into one inspectable result:
+
+```python
+import pandas as pd
+from t2d_benchmark.g_theory import GTheoryEngine
+
+frame = pd.read_csv("data/demo/synthetic_score_matrix.csv")  # object_id, prompt_id, occasion_id, score
+analysis = GTheoryEngine().analyze(frame)
+print(analysis.random_facet_coefficients.phi_coefficient)     # dependability coefficient (Φ)
+print(analysis.summary())                                     # headline run summary
+```
+
 ## Repository layout
 
 ```text
@@ -130,7 +146,13 @@ t2d_benchmark_public/
 │   ├── vignettes/             # 480 vignettes + factorial_index.csv + README
 │   ├── g_theory/              # released variance components + coefficients + README
 │   └── demo/                  # synthetic pipeline inputs + README
-├── src/t2d_benchmark/         # analysis pipeline, G-theory engine, build/provenance scripts
+├── src/t2d_benchmark/         # the installable package
+│   ├── constants.py           #   cross-module contract constants (cohort size, labels)
+│   ├── audit_release.py       #   release-boundary audit (t2d-audit)
+│   ├── build_factorial_index.py   # factorial index builder (t2d-build-factorial-index)
+│   ├── build_public_vignettes.py  # provenance-only vignette sanitizer
+│   ├── analysis/              #   synthetic-data generators + Baseline-vs-DRG comparison
+│   └── g_theory/              #   variance components, coefficients, D-study, GTheoryEngine
 └── tests/                     # unit, data-contract, and release-audit tests
 ```
 

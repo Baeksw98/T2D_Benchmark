@@ -8,14 +8,13 @@ component labels are rendered in English for this public release.
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
-from typing import Any, Dict, List
 
 import numpy as np
 import pandas as pd
 
 try:
     import statsmodels.api as sm
-except Exception:  # pragma: no cover - optional dependency at runtime
+except ImportError:  # pragma: no cover - optional dependency at runtime
     sm = None
 
 
@@ -33,23 +32,23 @@ class VarianceComponent:
 
 @dataclass(slots=True)
 class VarianceComponentResult:
-    components: List[VarianceComponent]
+    components: list[VarianceComponent]
     total_variance: float
     estimation_method: str
     n_object: int
     n_prompt: int
     n_occasion: int
     n_observations: int
-    convergence_info: Dict[str, Any] = field(default_factory=dict)
-    ms_table: Dict[str, float] = field(default_factory=dict)
-    ss_table: Dict[str, float] = field(default_factory=dict)
-    df_table: Dict[str, int] = field(default_factory=dict)
+    convergence_info: dict[str, object] = field(default_factory=dict)
+    ms_table: dict[str, float] = field(default_factory=dict)
+    ss_table: dict[str, float] = field(default_factory=dict)
+    df_table: dict[str, int] = field(default_factory=dict)
     balanced: bool = True
 
-    def component_map(self) -> Dict[str, float]:
+    def component_map(self) -> dict[str, float]:
         return {component.source: component.estimate for component in self.components}
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, object]:
         payload = asdict(self)
         payload["components"] = [asdict(component) for component in self.components]
         return payload
@@ -254,7 +253,7 @@ def estimate_variance_components_anova(
         / (n_object * n_prompt),
     }
 
-    estimates: Dict[str, tuple[float, bool]] = {}
+    estimates: dict[str, tuple[float, bool]] = {}
     for source, estimate in raw_estimates.items():
         truncated = estimate < 0
         estimates[source] = (max(0.0, float(estimate)), truncated)

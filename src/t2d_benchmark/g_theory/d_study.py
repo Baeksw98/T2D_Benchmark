@@ -6,8 +6,6 @@ have been rewritten for the standalone public package.
 
 from __future__ import annotations
 
-from typing import Any, Dict, List
-
 from t2d_benchmark.g_theory.coefficients import compute_coefficients
 from t2d_benchmark.g_theory.config import GTheoryConfig
 from t2d_benchmark.g_theory.variance_components import (
@@ -18,14 +16,14 @@ from t2d_benchmark.g_theory.variance_components import (
 def _scenario_rows(
     *,
     vc: VarianceComponentResult,
-    prompt_counts: List[int],
-    occasion_counts: List[int],
+    prompt_counts: list[int],
+    occasion_counts: list[int],
     prompt_fixed: bool,
     current_prompt: int,
     current_occasion: int,
     config: GTheoryConfig,
-) -> List[Dict[str, Any]]:
-    rows: List[Dict[str, Any]] = []
+) -> list[dict[str, object]]:
+    rows: list[dict[str, object]] = []
     for n_prompt in prompt_counts:
         for n_occasion in occasion_counts:
             coeffs = compute_coefficients(
@@ -54,10 +52,10 @@ def _scenario_rows(
 
 
 def _pick_optimal_design(
-    scenarios: List[Dict[str, Any]],
+    scenarios: list[dict[str, object]],
     *,
     target_phi: float,
-) -> Dict[str, Any]:
+) -> dict[str, object]:
     meeting = [
         row
         for row in scenarios
@@ -81,7 +79,7 @@ def _pick_optimal_design(
 def run_d_study(
     variance_components: VarianceComponentResult,
     config: GTheoryConfig,
-) -> Dict[str, Any]:
+) -> dict[str, object]:
     current_prompt = variance_components.n_prompt
     current_occasion = variance_components.n_occasion
     prompt_counts = sorted({*config.d_study_prompt_range, current_prompt})
@@ -117,7 +115,7 @@ def run_d_study(
         None,
     )
 
-    def _delta(reference: Dict[str, Any], candidate: Dict[str, Any] | None) -> float | None:
+    def _delta(reference: dict[str, object], candidate: dict[str, object] | None) -> float | None:
         if candidate is None:
             return None
         if reference.get("phi_coefficient") is None or candidate.get("phi_coefficient") is None:

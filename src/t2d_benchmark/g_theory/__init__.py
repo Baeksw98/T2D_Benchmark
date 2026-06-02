@@ -13,6 +13,7 @@ from t2d_benchmark.g_theory.coefficients import (
 )
 from t2d_benchmark.g_theory.config import GTheoryConfig
 from t2d_benchmark.g_theory.d_study import run_d_study
+from t2d_benchmark.g_theory.engine import GTheoryAnalysis, GTheoryEngine
 from t2d_benchmark.g_theory.variance_components import (
     VarianceComponent,
     VarianceComponentResult,
@@ -25,6 +26,8 @@ __all__ = [
     "compute_coefficients",
     "GTheoryConfig",
     "run_d_study",
+    "GTheoryEngine",
+    "GTheoryAnalysis",
     "VarianceComponent",
     "VarianceComponentResult",
     "estimate_variance_components_anova",

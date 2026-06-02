@@ -21,6 +21,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Sequence
 
+from t2d_benchmark.constants import EXPECTED_VIGNETTE_COUNT
+
 
 def token(*parts: str) -> str:
     return "".join(parts)
@@ -159,8 +161,7 @@ FORBIDDEN_VARIANCE_COLUMNS = {
 }
 MAX_AGGREGATE_ROWS = 100  # an aggregate table cannot hold the ~388k raw observations
 
-# Vignette set contract.
-EXPECTED_VIGNETTE_COUNT = 480
+# Vignette set contract (EXPECTED_VIGNETTE_COUNT is the cross-module constant).
 VIGNETTE_REQUIRED_KEYS = {
     "vignette_id",
     "vignette_index",

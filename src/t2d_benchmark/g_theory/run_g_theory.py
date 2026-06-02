@@ -36,13 +36,10 @@ from typing import Sequence
 
 import pandas as pd
 
-from t2d_benchmark.g_theory.coefficients import GTheoryCoefficients, compute_coefficients
+from t2d_benchmark.g_theory.coefficients import GTheoryCoefficients
 from t2d_benchmark.g_theory.config import GTheoryConfig
-from t2d_benchmark.g_theory.d_study import run_d_study
-from t2d_benchmark.g_theory.variance_components import (
-    VarianceComponentResult,
-    estimate_variance_components_anova,
-)
+from t2d_benchmark.g_theory.engine import GTheoryEngine
+from t2d_benchmark.g_theory.variance_components import VarianceComponentResult
 
 REQUIRED_COLUMNS = ("object_id", "prompt_id", "occasion_id", "score")
 
@@ -134,34 +131,26 @@ def write_d_study_csv(path: Path, dstudy: dict) -> None:
 
 
 def run(input_path: Path, output_dir: Path) -> dict:
+    """Analyze a score matrix and write the demo G-theory artifacts.
+
+    Thin shell over :class:`GTheoryEngine`: it loads the matrix, delegates the
+    analysis, writes the three ``demo_*.csv`` tables and ``summary.json``, and
+    returns the summary dict (with the input/output paths prepended).
+    """
     output_dir.mkdir(parents=True, exist_ok=True)
     frame = load_score_matrix(input_path)
-    config = GTheoryConfig()
 
-    vc = estimate_variance_components_anova(frame)
-    random_coeffs = compute_coefficients(vc, prompt_fixed=False, config=config)
-    fixed_coeffs = compute_coefficients(vc, prompt_fixed=True, config=config)
-    dstudy = run_d_study(vc, config)
+    analysis = GTheoryEngine(GTheoryConfig()).analyze(frame)
 
-    write_variance_components_csv(output_dir / "demo_variance_components.csv", vc)
-    write_coefficients_csv(output_dir / "demo_coefficients.csv", random_coeffs, fixed_coeffs)
-    write_d_study_csv(output_dir / "demo_d_study.csv", dstudy)
+    write_variance_components_csv(output_dir / "demo_variance_components.csv", analysis.variance_components)
+    write_coefficients_csv(
+        output_dir / "demo_coefficients.csv",
+        analysis.random_facet_coefficients,
+        analysis.fixed_facet_coefficients,
+    )
+    write_d_study_csv(output_dir / "demo_d_study.csv", analysis.d_study)
 
-    summary = {
-        "input": str(input_path),
-        "output_dir": str(output_dir),
-        "estimation_method": vc.estimation_method,
-        "n_object": vc.n_object,
-        "n_prompt": vc.n_prompt,
-        "n_occasion": vc.n_occasion,
-        "n_observations": vc.n_observations,
-        "total_variance": vc.total_variance,
-        "phi_coefficient": random_coeffs.phi_coefficient,
-        "g_coefficient": random_coeffs.g_coefficient,
-        "sem_abs": random_coeffs.sem_abs,
-        "sdd_abs": random_coeffs.sdd_abs,
-        "phi_interpretation": random_coeffs.phi_interpretation,
-    }
+    summary = {"input": str(input_path), "output_dir": str(output_dir), **analysis.summary()}
     (output_dir / "summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
     return summary
 

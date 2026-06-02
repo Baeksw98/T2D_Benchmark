@@ -11,7 +11,6 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 from math import sqrt
-from typing import Any, Dict
 
 from t2d_benchmark.g_theory.config import GTheoryConfig
 from t2d_benchmark.g_theory.variance_components import (
@@ -43,7 +42,7 @@ class GTheoryCoefficients:
     g_interpretation: str
     phi_interpretation: str
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, object]:
         return asdict(self)
 
 

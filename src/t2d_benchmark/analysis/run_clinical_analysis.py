@@ -38,8 +38,8 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 
-BASELINE = "baseline"
-DRG = "rubric_assisted"
+from t2d_benchmark.constants import BASELINE, DRG
+
 REQUIRED_COLUMNS = ("protocol", "case_id", "question_key", "rater_config", "Y_0_100")
 PAIR_KEYS = ["case_id", "question_key", "rater_config"]
 
@@ -126,7 +126,7 @@ def _difference_row(label: str, diffs) -> dict[str, object]:
 
 
 def write_protocol_means_figure(means: pd.DataFrame, path: Path) -> None:
-    order = sorted(means["question_key"].unique(), key=lambda key: int(str(key).lstrip("Q") or 0))
+    order = _question_order(means)
     fig, ax = plt.subplots(figsize=(10, 4))
     width = 0.4
     for offset, protocol, label in ((-width / 2, BASELINE, "Baseline"), (width / 2, DRG, "DRG")):

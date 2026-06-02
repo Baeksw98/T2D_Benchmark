@@ -28,9 +28,11 @@ from typing import Sequence
 
 import pandas as pd
 
+from t2d_benchmark.constants import BASELINE, DRG
+
 # --- Protocol (KS / paired-difference) table -------------------------------
 
-PROTOCOLS = ("baseline", "rubric_assisted")
+PROTOCOLS = (BASELINE, DRG)
 CASE_IDS = tuple(f"DEMO_CASE_{idx:03d}" for idx in range(1, 11))
 QUESTION_KEYS = tuple(f"Q{idx}" for idx in range(1, 16))  # 15 reliability questions
 RATER_CONFIGS = tuple(f"cfg_{idx:02d}" for idx in range(1, 7))
@@ -62,7 +64,7 @@ def _centered(*parts: object) -> float:
 
 def protocol_score(protocol: str, case_id: str, question_key: str, rater_config: str) -> float:
     q = int(question_key[1:])
-    if protocol == "rubric_assisted":
+    if protocol == DRG:
         base = 62.0 + (q - 8) * 0.4
         spread = 25.0
     else:  # baseline: competent on medication selection, near-zero on later parts

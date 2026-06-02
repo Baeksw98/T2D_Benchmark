@@ -16,7 +16,6 @@ of this public release.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import List
 
 
 @dataclass(slots=True)
@@ -27,7 +26,7 @@ class GTheoryConfig:
     reliability_acceptable: float = 0.70
 
     # D-study projection ranges (read by d_study.run_d_study).
-    d_study_prompt_range: List[int] = field(default_factory=lambda: [1, 2, 3, 5, 7, 10])
-    d_study_occasion_range: List[int] = field(
+    d_study_prompt_range: list[int] = field(default_factory=lambda: [1, 2, 3, 5, 7, 10])
+    d_study_occasion_range: list[int] = field(
         default_factory=lambda: [1, 2, 3, 5, 10, 15, 20]
     )
