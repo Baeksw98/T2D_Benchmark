@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "t2d-physician-anchored-benchmark"
+version = "1.0.0"
+description = "Public materials and statistical analysis pipeline for the physician-anchored Type 2 Diabetes clinical-LLM benchmark."
+requires-python = ">=3.10"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+  { name = "Sangwon Baek" },
+  { name = "Kyu Yeon Hur", email = "ky.hur@skku.edu" },
+  { name = "Kyunga Kim", email = "kyunga.j.kim@gmail.com" },
+]
+keywords = [
+  "clinical-llm",
+  "benchmark",
+  "type-2-diabetes",
+  "generalizability-theory",
+  "physician-anchored-evaluation",
+]
+
+[project.urls]
+Repository = "https://github.com/Baeksw98/T2D_Benchmark"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
