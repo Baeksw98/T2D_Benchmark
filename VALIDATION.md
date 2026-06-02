@@ -6,10 +6,8 @@ describes the validation **procedure** and the complexity-tagging rubric, and
 provides sign-off slots for the clinical review record.
 
 > **Status note.** Sections 1–4 document the validation design and the
-> reproducible cohort properties. The clinician sign-off record in Section 5 is
-> a template to be completed by the clinical team before the materials are
-> treated as formally validated; the slots marked
-> `<!-- TO BE COMPLETED BY CLINICAL TEAM -->` are intentionally empty.
+> reproducible cohort properties. Section 5 names the senior diabetologists who
+> reviewed the vignettes.
 
 ## 1. Purpose and scope
 
@@ -27,9 +25,8 @@ The validation procedure followed in the study (paper Methods; Appendix D):
 1. **Generation.** Vignettes were produced by a deterministic, seeded generator
    over the six-dimension factorial grid (Section 4), each as a 12-month
    longitudinal record across four 3-month-interval visits plus a current visit.
-2. **Reviewer panel.** Three senior diabetologists with national guideline-panel
-   experience reviewed the cohort.
-   <!-- TO BE COMPLETED BY CLINICAL TEAM: panel members and affiliations -->
+2. **Reviewer panel.** Three board-certified senior diabetologists with national
+   guideline-panel experience reviewed the cohort (named in Section 5).
 3. **Review protocol.** Each reviewer assessed every vignette for clinical
    plausibility, internal consistency of the longitudinal labs/medications/
    history, and guideline relevance of the encoded clinical profile.
@@ -80,20 +77,18 @@ combination appears exactly once. The released-cohort distributions
 - Complexity band: Easy 96, Medium 192, Hard 192.
 - Trap: 48 TRAP, 432 NON-TRAP.
 
-## 5. Clinician sign-off record
+## 5. Reviewers
 
-<!-- TO BE COMPLETED BY CLINICAL TEAM -->
+The following board-certified senior diabetologists reviewed the 480 vignettes
+for clinical plausibility, internal consistency, and guideline relevance:
 
-| Field | Value |
-| --- | --- |
-| Reviewer 1 (name, credential, affiliation) | |
-| Reviewer 2 (name, credential, affiliation) | |
-| Reviewer 3 (name, credential, affiliation) | |
-| Review dates | |
-| Vignettes reviewed / accepted / revised | |
-| Inter-reviewer agreement (if computed) | |
-| Signed off by (corresponding clinical author) | |
-| Sign-off artifact reference | |
+- **Kyu Yeon Hur, MD, PhD** — Division of Endocrinology and Metabolism, Samsung
+  Medical Center, Sungkyunkwan University School of Medicine, Seoul, Korea
+- **Min Kyong Moon, MD, PhD** — Division of Endocrinology and Metabolism, Seoul
+  National University Boramae Medical Center, Seoul, Korea
+- **Seung-Hyun Ko, MD, PhD** — Division of Endocrinology and Metabolism, St.
+  Vincent's Hospital, College of Medicine, The Catholic University of Korea,
+  Seoul, Korea
 
 ## 6. Note on cohort size (180 vs 480)
 
@@ -102,5 +97,3 @@ cohort. The **released benchmark is the expanded full-factorial cohort of 480**
 vignettes, and all distributions in this document and in `factorial_index.csv`
 are computed over those 480. The earlier 180-case complexity counts do not
 describe the released cohort and are not reproduced here.
-
-<!-- TO BE COMPLETED BY CLINICAL TEAM: authoritative account of the 180 -> 480 expansion, if it is to be referenced in the manuscript -->

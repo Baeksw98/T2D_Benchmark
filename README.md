@@ -135,8 +135,7 @@ If you use these materials, please cite the paper (see [`CITATION.cff`](CITATION
 > Baek S, Kim JH, Jin S-M, Kim G, Lee Y-B, Kim JY, Cho SH, Oh R, Kim B, Jang M,
 > Ko S-H, Moon MK, Kim K, Hur KY. *Clinical LLMs Require Physician-Anchored
 > Evaluation: A Type 2 Diabetes Benchmark for the Coming Wave of AI in Medicine.*
-> 2026. (Manuscript under review; DOI and persistent repository identifier to be
-> added upon publication.)
+> 2026. Manuscript submitted to JAMA.
 
 Corresponding authors: Kyu Yeon Hur (ky.hur@skku.edu), Kyunga Kim
 (kyunga.j.kim@gmail.com).

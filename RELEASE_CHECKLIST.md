@@ -45,5 +45,5 @@ history, or remote.
 13. Confirm `.git/config` contains no reference to the private repository remote.
 14. Run `git status --short --ignored` and confirm the required public data files
     (the vignette JSONs and the `data/` CSVs) are tracked, not ignored.
-15. Set the final public repository name/URL and add the DOI / persistent
-    identifier to `CITATION.cff` upon publication.
+15. Confirm the public repository URL is set in `README.md`, `CITATION.cff`, and
+    `pyproject.toml` (https://github.com/Baeksw98/T2D_Benchmark).
