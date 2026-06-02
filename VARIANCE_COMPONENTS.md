@@ -24,8 +24,20 @@ question** as the measured behavior (15 questions: 8 medication selection,
 3 follow-up & monitoring, 4 patient education). The AI rater scored each
 output–question pair under a factorial design of rater configurations (3 prompt
 character × 3 prompt type × 3 prompt ordering = 27 configurations, each in
-2 repetitions). The two crossed measurement facets are therefore the **prompt
-ordering** (`order`) and the **repetition** (`run`).
+2 repetitions). The two crossed measurement facets in the reliability
+decomposition are the **prompt ordering** (`order`) and the **repetition**
+(`run`); the prompt-character and prompt-type axes of the 27-configuration design
+are not modeled as separate random facets in this decomposition.
+
+**Mapping to the public computation engine.** The released engine in
+[`src/t2d_benchmark/g_theory/`](src/t2d_benchmark/g_theory/) is a *generic*
+balanced `object × facet1 × facet2` ANOVA. In the study it was instantiated with
+**object = patient**, **facet 1 = prompt ordering**, and **facet 2 = repetition**.
+Accordingly, the generic column names (`object_id` / `prompt_id` / `occasion_id`)
+in the demo data and the generic component labels (`Object of measurement` /
+`Facet 1` / `Facet 2`) map onto patient / ordering / repetition. The per-question
+decomposition is reported in `variance_components.csv`; the across-question
+composite reliability is reported in `coefficients.csv`.
 
 Three measurements are reported in `coefficients.csv`:
 
@@ -48,8 +60,9 @@ error of measurement (all in `coefficients.csv`). Then:
   `Φ = σ²_signal / (σ²_signal + SEM_abs²)`
 - **Generalizability coefficient** (relative decisions):
   `G = σ²_signal / (σ²_signal + SEM_rel²)`
-- **Smallest detectable difference**: `SDD = 2.77 × SEM`,
-  where `2.77 = 1.96 × √2`.
+- **Smallest detectable difference**: `SDD = 2.77 × SEM`, where
+  `2.77 = 1.96 × √2` is the conventional minimal-detectable-change multiplier
+  (a two-sided 95% interval on the difference of two independent measurements).
 
 Worked example — the `DRG_minus_Baseline`, `overall` row:
 
@@ -93,3 +106,20 @@ random-plus-residual variance. Across questions the patient signal is small
 relative to the residual on any single measurement; the high dependability of
 the reported scores arises from averaging over the 15 questions and the crossed
 rater facets, which is exactly what the coefficients above quantify.
+
+## Relationship between the two released CSVs
+
+The two CSVs are at **different aggregation levels** and are released together so
+both are inspectable:
+
+- `variance_components.csv` is a **per-question, single-measurement** ANOVA
+  decomposition (σ²_patient, σ²_order, σ²_run, σ²_residual for each of the 15
+  questions).
+- `coefficients.csv` holds the **across-question, across-facet aggregated**
+  quantities: its `sigma2_signal`, `sem_rel`, and `sem_abs` are the aggregate
+  components that yield each Φ and G via the formulas above.
+
+The coefficients are not a closed-form function of the per-question rows from the
+released cells alone (the aggregation also averages over the crossed facets);
+`coefficients.csv` is therefore the authoritative source for the reported Φ / SEM
+/ SDD, and `variance_components.csv` is the supporting per-question detail.

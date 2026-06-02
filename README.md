@@ -11,6 +11,14 @@ the benchmark's measurement properties.
 
 Repository: https://github.com/Baeksw98/T2D_Benchmark
 
+**Abbreviations.** CKD, chronic kidney disease; HF, heart failure; ASCVD,
+atherosclerotic cardiovascular disease; MASLD, metabolic dysfunction–associated
+steatotic liver disease; BMI, body mass index; CDSS, clinical decision support
+system; DRG, Document-Referenced Generation (the guideline-referenced CDSS
+configuration; encoded on disk as `rubric_assisted`); SEM, standard error of
+measurement; SDD, smallest detectable difference; Φ, dependability coefficient;
+KS, Kolmogorov–Smirnov.
+
 ## What this repository releases
 
 1. **The 480 synthetic patient vignettes** with their factorial structure and
@@ -57,8 +65,11 @@ the schema and validation procedure are in
 The reliability of the AI-rater scores was quantified under generalizability
 theory with the patient as the object of measurement (480 patients × 15
 questions). The headline dependability coefficient is **Φ = 0.984** (SEM = 2.92;
-SDD = 8.08), with per-part Φ in the range **0.968–0.978**. The released variance
-components reproduce these numbers exactly; see
+SDD = 8.08), with per-part Φ in the range **0.968–0.978**. The released
+coefficients ([`data/g_theory/coefficients.csv`](data/g_theory/coefficients.csv))
+reproduce these numbers exactly, with the per-question
+[`variance_components.csv`](data/g_theory/variance_components.csv) as the
+supporting decomposition; the arithmetic is walked through in
 [`VARIANCE_COMPONENTS.md`](VARIANCE_COMPONENTS.md).
 
 ## Quick start
@@ -86,7 +97,7 @@ python -m t2d_benchmark.g_theory.run_g_theory \
   --input data/demo/synthetic_score_matrix.csv \
   --output outputs/g_theory
 
-# Baseline vs DRG distribution comparison (KS tests + paired differences)
+# Baseline vs Document-Referenced Generation (DRG) comparison (KS tests + paired differences)
 python -m t2d_benchmark.analysis.run_clinical_analysis \
   --input data/demo/synthetic_protocol_scores.csv \
   --output outputs/clinical_analysis
@@ -107,17 +118,19 @@ and expected outputs.
 t2d_benchmark_public/
 ├── README.md                  # this file
 ├── REPRODUCIBILITY.md         # command-by-command reproduction guide
-├── VALIDATION.md              # clinical validation procedure + complexity tagging
+├── VALIDATION.md              # clinical validation procedure, reviewers, complexity tagging
 ├── VARIANCE_COMPONENTS.md     # Φ / SEM / SDD arithmetic from the released estimates
 ├── PUBLIC_DATA_CARD.md        # description of the released data assets
 ├── DATA_LICENSE.md            # data-use terms
 ├── LICENSE                    # MIT (code)
 ├── CITATION.cff               # how to cite
+├── pyproject.toml             # package metadata, dependencies, console scripts
+├── requirements.txt           # dependency pins (mirror of pyproject)
 ├── data/
-│   ├── vignettes/             # 480 vignettes + factorial_index.csv
-│   ├── g_theory/              # released variance components + coefficients
-│   └── demo/                  # synthetic inputs for the pipeline
-├── src/t2d_benchmark/         # statistical analysis pipeline + build scripts
+│   ├── vignettes/             # 480 vignettes + factorial_index.csv + README
+│   ├── g_theory/              # released variance components + coefficients + README
+│   └── demo/                  # synthetic pipeline inputs + README
+├── src/t2d_benchmark/         # analysis pipeline, G-theory engine, build/provenance scripts
 └── tests/                     # unit, data-contract, and release-audit tests
 ```
 

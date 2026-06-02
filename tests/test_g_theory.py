@@ -7,6 +7,7 @@ import pandas as pd
 
 from t2d_benchmark.analysis.generate_synthetic_demo_data import build_gtheory_frame
 from t2d_benchmark.g_theory import compute_coefficients, estimate_variance_components_anova
+from t2d_benchmark.g_theory.run_g_theory import run as run_gtheory
 
 ROOT = Path(__file__).resolve().parents[1]
 COEFFS = ROOT / "data" / "g_theory" / "coefficients.csv"
@@ -69,6 +70,18 @@ def test_released_per_part_phi_range() -> None:
     assert len(parts) == 3
     assert round(min(parts), 3) == 0.968
     assert round(max(parts), 3) == 0.978
+
+
+def test_run_g_theory_smoke(tmp_path: Path) -> None:
+    frame = build_gtheory_frame()
+    inp = tmp_path / "matrix.csv"
+    frame.to_csv(inp, index=False)
+    out = tmp_path / "out"
+    summary = run_gtheory(inp, out)
+    for name in ("demo_coefficients.csv", "demo_variance_components.csv", "demo_d_study.csv", "summary.json"):
+        assert (out / name).exists(), name
+    assert summary["phi_coefficient"] is not None
+    assert 0.0 <= summary["phi_coefficient"] <= 1.0
 
 
 def test_released_variance_components_are_aggregate() -> None:

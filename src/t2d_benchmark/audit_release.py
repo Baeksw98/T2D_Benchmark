@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import json
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
@@ -83,6 +84,10 @@ FORBIDDEN_PATTERNS = (
 )
 
 TEXT_SUFFIXES = {".cff", ".csv", ".json", ".md", ".py", ".toml", ".txt", ".yaml", ".yml"}
+# Binary suffixes are skipped; every other file (including extensionless files
+# such as LICENSE and .gitignore) is scanned, with scan_file silently skipping
+# anything that is not valid UTF-8 text.
+BINARY_SUFFIXES = {".png", ".jpg", ".jpeg", ".gif", ".pdf", ".zip", ".gz", ".whl", ".so", ".pyc", ".ico"}
 
 SKIP_DIRS = {
     ".git",
@@ -103,7 +108,6 @@ REQUIRED_FILES = (
     "PUBLIC_DATA_CARD.md",
     "DATA_LICENSE.md",
     "LICENSE",
-    "RELEASE_CHECKLIST.md",
     "CITATION.cff",
     "requirements.txt",
     "pyproject.toml",
@@ -112,6 +116,7 @@ REQUIRED_FILES = (
     "data/g_theory/README.md",
     "data/g_theory/variance_components.csv",
     "data/g_theory/coefficients.csv",
+    "data/demo/README.md",
     "data/demo/synthetic_score_matrix.csv",
     "data/demo/synthetic_protocol_scores.csv",
     "src/t2d_benchmark/audit_release.py",
@@ -190,7 +195,9 @@ def iter_text_files(root: Path):
             continue
         if any(part in SKIP_DIRS for part in path.parts):
             continue
-        if path.suffix.lower() in TEXT_SUFFIXES:
+        if path.suffix.lower() in BINARY_SUFFIXES:
+            continue
+        if path.suffix.lower() in TEXT_SUFFIXES or path.suffix == "":
             yield path
 
 
@@ -274,7 +281,6 @@ def vignette_set_findings(root: Path) -> list[Finding]:
     vdir = root / "data" / "vignettes"
     if not vdir.exists():
         return []
-    import json
 
     findings: list[Finding] = []
     files = sorted(vdir.glob("T2D_V*.json"))

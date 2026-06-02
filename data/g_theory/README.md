@@ -6,6 +6,12 @@ raw AI-rater scores and contain no per-patient scores, rater identities, or
 rubric text. For the full arithmetic that reproduces the headline numbers from
 these cells, see [`../../VARIANCE_COMPONENTS.md`](../../VARIANCE_COMPONENTS.md).
 
+`coefficients.csv` is the authoritative source for the reported Φ / SEM / SDD;
+`variance_components.csv` is the supporting per-question detail (the two are at
+different aggregation levels — see `VARIANCE_COMPONENTS.md`). In the study's
+G-theory model the patient is the object of measurement and prompt ordering and
+repetition are the two random facets.
+
 ## `coefficients.csv`
 
 Dependability/generalizability coefficients and errors of measurement, one row
@@ -44,4 +50,7 @@ These are the variance-component estimates released per the paper's Data Sharing
 Statement. The estimation code that produces equivalent decompositions from a
 score matrix is in [`../../src/t2d_benchmark/g_theory/`](../../src/t2d_benchmark/g_theory/);
 running it on the synthetic demo matrix reproduces the *mechanics*, not these
-exact (study-derived) numbers.
+exact (study-derived) numbers. That runner writes its outputs with a `demo_`
+prefix (`demo_coefficients.csv`, `demo_variance_components.csv`) under a generic
+single-measurement schema, so they are never confused with the curated files
+here.

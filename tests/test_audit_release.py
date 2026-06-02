@@ -102,6 +102,14 @@ def test_detects_missing_required_file(tmp_path: Path) -> None:
     assert findings[0].label == "missing required file"
 
 
+def test_scans_extensionless_files_like_license(tmp_path: Path) -> None:
+    # Extensionless files (e.g. LICENSE) and dotfiles must still be scanned.
+    bad = tmp_path / "LICENSE"
+    bad.write_text("Copyright /" + "NH" + "N" + "HOME" + "/leak\n", encoding="utf-8")
+    labels = {f.label for f in audit(tmp_path, check_required=False)}
+    assert "workspace absolute path" in labels
+
+
 def test_allows_public_tree() -> None:
     root = Path(__file__).resolve().parents[1]
     findings = audit(root)

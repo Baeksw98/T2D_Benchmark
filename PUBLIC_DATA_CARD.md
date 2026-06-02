@@ -29,11 +29,14 @@ data, gold-rubric content, production prompts, or raw model outputs.
 
 - `synthetic_score_matrix.csv` — a balanced, fully crossed `object × prompt ×
   occasion` matrix (540 rows) for the G-theory runner.
-- `synthetic_protocol_scores.csv` — a Baseline vs DRG score table (1,800 rows)
-  for the KS / paired-difference analysis.
+- `synthetic_protocol_scores.csv` — a Baseline vs Document-Referenced Generation
+  (DRG) score table (1,800 rows) for the KS / paired-difference analysis. In this
+  table DRG is encoded in the `protocol` column as the literal value
+  `rubric_assisted`, and `Y_0_100` is a 0–100 score.
 - Both are deterministic (SHA256-seeded) artificial tables. They are shaped only
   to exercise the pipeline end-to-end; **the numbers they produce are not the
-  paper's results.** Regenerate with
+  paper's results.** The column dictionary for each is in
+  [`data/demo/README.md`](data/demo/README.md). Regenerate with
   `python -m t2d_benchmark.analysis.generate_synthetic_demo_data --target both`.
 
 ## Privacy and release boundary

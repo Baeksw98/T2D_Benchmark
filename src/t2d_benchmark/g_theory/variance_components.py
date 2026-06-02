@@ -55,13 +55,17 @@ class VarianceComponentResult:
         return payload
 
 
+# Generic G-theory facet labels. This engine is a generic balanced
+# object x facet1 x facet2 ANOVA. In the study it was applied with the patient
+# as the object of measurement and prompt ordering and repetition as the two
+# random facets; see VARIANCE_COMPONENTS.md for that mapping.
 COMPONENT_LABELS = {
-    "object": "Object (question)",
-    "prompt": "Prompt",
-    "occasion": "Occasion (repetition)",
-    "object_prompt": "Object x Prompt",
-    "object_occasion": "Object x Occasion",
-    "prompt_occasion": "Prompt x Occasion",
+    "object": "Object of measurement",
+    "prompt": "Facet 1 (prompt)",
+    "occasion": "Facet 2 (occasion)",
+    "object_prompt": "Object x Facet 1",
+    "object_occasion": "Object x Facet 2",
+    "prompt_occasion": "Facet 1 x Facet 2",
     "residual": "Residual",
 }
 

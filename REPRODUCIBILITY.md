@@ -33,13 +33,15 @@ python -m t2d_benchmark.g_theory.run_g_theory \
   --output outputs/g_theory
 ```
 
-Produces, under `outputs/g_theory/`:
+Produces, under `outputs/g_theory/` (the `demo_` prefix and a generic
+single-measurement schema keep these distinct from the curated released
+estimates under `data/g_theory/`):
 
 | File | Contents |
 | --- | --- |
-| `variance_components.csv` | Seven-source ANOVA variance decomposition |
-| `coefficients.csv` | Φ, G, SEM, SDD (random- and fixed-prompt) |
-| `d_study.csv` | Decision-study projection across facet sizes |
+| `demo_variance_components.csv` | Seven-source ANOVA variance decomposition |
+| `demo_coefficients.csv` | Φ, G, SEM, SDD (random- and fixed-facet) |
+| `demo_d_study.csv` | Decision-study projection across facet sizes |
 | `summary.json` | Run summary (Φ lands in the "excellent" band on the demo matrix) |
 
 ## 4. Baseline vs DRG distribution comparison
@@ -78,6 +80,17 @@ python -m t2d_benchmark.build_factorial_index \
 
 The factorial index is a deterministic function of the canonical vignette order
 and can be rebuilt from public information alone.
+
+## 7. Provenance of the vignettes (not reader-runnable)
+
+`src/t2d_benchmark/build_public_vignettes.py` is a **provenance record** of how
+the public vignettes were derived from the study's source narratives: it is an
+allowlist sanitizer that reads only the English user-prompt text, strips internal
+provenance fields, re-aliases identifiers, and re-scans each record for internal
+markers. It requires the withheld private source as input (`--source-root`) and
+therefore **cannot be run by readers**; it is included only to document the
+derivation. The released vignettes and factorial index are the runnable,
+public-data-derivable artifacts.
 
 ## What is and is not reproduced
 

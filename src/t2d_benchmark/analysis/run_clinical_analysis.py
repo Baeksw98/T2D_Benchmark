@@ -34,6 +34,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 from scipy import stats
 
@@ -107,8 +108,6 @@ def paired_differences(frame: pd.DataFrame) -> pd.DataFrame:
 
 
 def _difference_row(label: str, diffs) -> dict[str, object]:
-    import numpy as np
-
     diffs = np.asarray(diffs, dtype=float)
     n = int(diffs.size)
     if n == 0:

@@ -21,9 +21,26 @@ keywords = [
   "generalizability-theory",
   "physician-anchored-evaluation",
 ]
+dependencies = [
+  "pandas>=2.1.0",
+  "numpy>=1.26.0",
+  "scipy>=1.11.0",
+  "statsmodels>=0.14.0",
+  "matplotlib>=3.8.0",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=7.4.0"]
 
 [project.urls]
 Repository = "https://github.com/Baeksw98/T2D_Benchmark"
+
+[project.scripts]
+t2d-audit = "t2d_benchmark.audit_release:main"
+t2d-gtheory = "t2d_benchmark.g_theory.run_g_theory:main"
+t2d-clinical-analysis = "t2d_benchmark.analysis.run_clinical_analysis:main"
+t2d-gen-demo = "t2d_benchmark.analysis.generate_synthetic_demo_data:main"
+t2d-build-factorial-index = "t2d_benchmark.build_factorial_index:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

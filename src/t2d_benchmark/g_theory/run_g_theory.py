@@ -1,17 +1,24 @@
 """Standalone G-theory runner: a CSV score matrix -> variance components + coefficients.
 
-Reads a balanced, fully crossed ``object x prompt x occasion`` score matrix and
-writes:
+This is a generic balanced ``object x facet1 x facet2`` G-theory ANOVA engine.
+In the study it was applied with the patient as the object of measurement and
+prompt ordering and repetition as the two random facets (see
+``VARIANCE_COMPONENTS.md``). Here the column names ``object_id``/``prompt_id``/
+``occasion_id`` are generic facet placeholders.
 
-- ``variance_components.csv`` -- the seven-source variance decomposition;
-- ``coefficients.csv``        -- Phi, G, SEM, and SDD (random- and fixed-prompt);
-- ``d_study.csv``             -- a decision-study projection across facet sizes;
-- ``summary.json``            -- a machine-readable run summary.
+Reads a balanced, fully crossed score matrix and writes (with a ``demo_`` prefix
+to keep them distinct from the curated released estimates under ``data/g_theory/``):
+
+- ``demo_variance_components.csv`` -- the seven-source variance decomposition;
+- ``demo_coefficients.csv``        -- Phi, G, SEM, and SDD (random- and fixed-facet);
+- ``demo_d_study.csv``             -- a decision-study projection across facet sizes;
+- ``summary.json``                 -- a machine-readable run summary.
 
 This runner operates on the public synthetic demo matrix shipped under
 ``data/demo/``. It reproduces the *mechanics* of the reliability analysis; the
 authoritative variance-component estimates from the study are the curated CSVs
-under ``data/g_theory/`` and are NOT regenerated here.
+under ``data/g_theory/`` (a different, study-specific schema) and are NOT
+regenerated here.
 
 Usage:
     python -m t2d_benchmark.g_theory.run_g_theory \\
@@ -136,9 +143,9 @@ def run(input_path: Path, output_dir: Path) -> dict:
     fixed_coeffs = compute_coefficients(vc, prompt_fixed=True, config=config)
     dstudy = run_d_study(vc, config)
 
-    write_variance_components_csv(output_dir / "variance_components.csv", vc)
-    write_coefficients_csv(output_dir / "coefficients.csv", random_coeffs, fixed_coeffs)
-    write_d_study_csv(output_dir / "d_study.csv", dstudy)
+    write_variance_components_csv(output_dir / "demo_variance_components.csv", vc)
+    write_coefficients_csv(output_dir / "demo_coefficients.csv", random_coeffs, fixed_coeffs)
+    write_d_study_csv(output_dir / "demo_d_study.csv", dstudy)
 
     summary = {
         "input": str(input_path),

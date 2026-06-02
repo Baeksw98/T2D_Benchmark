@@ -2,12 +2,13 @@
 
 This document records the clinical validation of the 480 synthetic Type 2
 diabetes (T2D) vignettes released in [`data/vignettes/`](data/vignettes/). It
-describes the validation **procedure** and the complexity-tagging rubric, and
-provides sign-off slots for the clinical review record.
+describes the validation **procedure**, the complexity-tagging rubric, and the
+reviewers who validated the cohort.
 
-> **Status note.** Sections 1–4 document the validation design and the
-> reproducible cohort properties. Section 5 names the senior diabetologists who
-> reviewed the vignettes.
+> Sections 1–4 document the validation design and the reproducible cohort
+> properties. Section 5 records the three board-certified senior diabetologists
+> who reviewed the 480-vignette cohort for clinical plausibility, internal
+> consistency, and guideline relevance.
 
 ## 1. Purpose and scope
 

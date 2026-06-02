@@ -51,6 +51,35 @@ python -m t2d_benchmark.build_factorial_index --output data/vignettes/factorial_
 See [`../../VALIDATION.md`](../../VALIDATION.md) for the validation procedure,
 the complexity rubric, and the cohort distributions.
 
+## Clinical content of `prompt_text`
+
+Every `prompt_text` is a structured outpatient narrative with the following
+labeled sections:
+
+| Section | Contents |
+| --- | --- |
+| Demographics | Age, sex, ethnicity |
+| Visit type | Visit context (12-month follow-up) |
+| Reason for visit / current symptoms | Presenting reason, diagnosis context, current symptoms |
+| History | Other conditions; diabetes-related comorbidities (CKD, HF, ASCVD, MASLD, BMI); family history; social history (smoking, alcohol) |
+| Medication information | Current diabetes and non-diabetes medications |
+| Physical exam | Weight, height, BMI, blood pressure |
+| Laboratory values | Longitudinal panel at five time points (12 / 9 / 6 / 3 months ago and current): HbA1c, FPG; weight/height/BMI/SBP/DBP; ALT, AST, total bilirubin; eGFR, UACR; LDL, HDL, triglycerides; hemoglobin; and additional tests (urine ketone, fasting C-peptide) |
+| Individualized treatment decision factors | Adherence/self-management and financial context |
+
+For a one-row-per-vignette survey of the cohort (the six factor levels plus the
+complexity and trap tags) without opening 480 files, use
+[`factorial_index.csv`](factorial_index.csv).
+
+## Provenance
+
+The vignettes were derived from the study's source narratives by the allowlist
+sanitizer `src/t2d_benchmark/build_public_vignettes.py`, which reads only the
+English user-prompt text, strips internal provenance fields, re-aliases the
+identifiers to `T2D_V###`, and re-scans each record for internal markers. That
+script requires the withheld private source and is **not runnable by readers**;
+it is included as a provenance record only. See `REPRODUCIBILITY.md` §7.
+
 ## Note on rendered values
 
 Within a factorial cell, the generator samples concrete longitudinal values
